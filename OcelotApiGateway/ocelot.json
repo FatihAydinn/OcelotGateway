@@ -1,0 +1,39 @@
+{
+  //program ayağa kalkarken aşağıda belirtilen portu kullanarak çalışacak
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5003"
+  },
+  //erişilecek olan apilerin port bilgileri
+  "Routes": [
+    {
+      //hedef api çalıştırıldığında kendisinin localhost portu yerie
+      //yukarıda tanımlanan portu kullanacak
+      "UpstreamPathTemplate": "/gateway/products",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/products",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10
+      }
+    },
+    //belirtilen ID ye özel veriye erişebilmek için;
+    {
+      "UpstreamPathTemplate": "/gateway/products/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ]
+    }
+  ]
+}
